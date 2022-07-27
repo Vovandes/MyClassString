@@ -33,11 +33,14 @@ namespace mcs {
 		friend std::ostream& operator<<(std::ostream& out, const MyClassString& s);
 		friend std::istream& operator>>(std::istream& in, MyClassString& s);
 
+		void EmplaceBack(const char ch);
+		void EmplaceBackString(const char* ch);
 
 	private:
 		char* string;
 		unsigned lenght;
 		void DeleteString();
+		void CopyFunctions(const char* temp_string, unsigned size);
 	};
 }
 
@@ -56,22 +59,16 @@ namespace mcs {
 
 // ctor #1
 inline mcs::MyClassString::MyClassString(const char* newString) {
-	this->lenght = mcs::MyClassString::MySizeFunctions(newString);
-	auto size = this->lenght;
-	this->string = new char[size + 1]{ '\0' };
-	for (unsigned i = 0; i < size; ++i) {
-		this->string[i] = newString[i];
-	}
+	this->lenght = MySizeFunctions(newString);
+	this->string = new char[this->lenght + 1]{ '\0' };
+	CopyFunctions(newString, this->lenght);
 }
 
 // Copy Constructor
 inline mcs::MyClassString::MyClassString(const MyClassString& other) noexcept {
-	this->lenght = mcs::MyClassString::MySizeFunctions(other.string);
-	auto size = this->lenght;
-	this->string = new char[size + 1]{ '\0' };
-	for (unsigned i = 0; i < size; ++i) {
-		this->string[i] = other.string[i];
-	}
+	this->lenght = MySizeFunctions(other.string);
+	this->string = new char[this->lenght + 1]{ '\0' };
+	CopyFunctions(other.string, this->lenght);
 }
 
 // Move Constructor
@@ -99,9 +96,7 @@ inline mcs::MyClassString& mcs::MyClassString::operator=(const MyClassString& ot
 	}
 	this->lenght = other.lenght;
 	this->string = new char[this->lenght + 1]{ '\0' };
-	for (unsigned i = 0; i < this->lenght; ++i) {
-		this->string[i] = other.string[i];
-	}
+	CopyFunctions(other.string, this->lenght);
 
 	return *this;
 }
@@ -162,12 +157,43 @@ inline unsigned mcs::MyClassString::GetSizeString() const {
 	return this->lenght;
 }
 
+// Set const char in back
+inline void mcs::MyClassString::EmplaceBack(const char ch) {
+	auto size = this->lenght + 1;
+	auto temp = new char[size + 1]{ '\0' };
+	if (this->string != nullptr) {
+		for (unsigned i = 0; i < this->lenght; ++i) {
+			temp[i] = this->string[i];
+		}
+		this->DeleteString();
+	}
+	temp[size - 1] = ch;
+	this->lenght = size;
+	this->string = new char[size + 1]{ '\0' };
+	CopyFunctions(temp, size);
+
+	delete[] temp;
+	temp = nullptr;
+}
+
+// Set const char* in back
+inline void mcs::MyClassString::EmplaceBackString(const char* ch) {
+
+}
+
 // Delete String
 inline void mcs::MyClassString::DeleteString() {
 	if (this->string != nullptr) {
 		delete this->string;
 		this->lenght = 0;
 		this->string = nullptr;
+	}
+}
+
+// Copy element array
+inline void mcs::MyClassString::CopyFunctions(const char* temp_string, unsigned size) {
+	for (unsigned i = 0; i < size; ++i) {
+		this->string[i] = temp_string[i];
 	}
 }
 
