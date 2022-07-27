@@ -128,18 +128,18 @@ inline mcs::MyClassString mcs::MyClassString::operator+(const MyClassString& oth
 inline mcs::MyClassString mcs::MyClassString::operator+(const char* temp_string) const {
 	MyClassString temp(temp_string);
 
-	return temp = operator+(temp);
+	return temp = this->operator+(temp);
 }
 
 // Reload operator += for class
 inline mcs::MyClassString& mcs::MyClassString::operator+=(const MyClassString& other) {
-	return operator=(*this + other);
+	return this->operator=(*this + other);
 }
 
 // Reload operator += for const char*
 inline mcs::MyClassString& mcs::MyClassString::operator+=(const char* temp_string) {
 	MyClassString temp(temp_string);
-	return operator=(*this + temp);
+	return this->operator=(*this + temp);
 }
 
 // Reload operator ==
@@ -158,7 +158,7 @@ inline bool mcs::MyClassString::operator==(const MyClassString& other) {
 
 // Reload operator !=
 inline bool mcs::MyClassString::operator!=(const MyClassString& other) {
-	return !this->operator==(other);
+	return !(this->operator==(other));
 }
 
 // Reload operator []
