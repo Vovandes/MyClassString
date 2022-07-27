@@ -13,12 +13,13 @@ int main() {
 
 	mcs::MyClassString str3 = CreateString("12345");
 
-	//str.Clear();
+	std::cin >> str3;
 
-	//str = str + str2;
-	str += "KOKOKO";
+	str += "KO";
 
 	str += str3;
+
+	std::cout << str << std::endl;
 
 	std::cout << str.GetSizeString() << std::endl;
 

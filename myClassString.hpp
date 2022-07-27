@@ -31,6 +31,8 @@ namespace mcs {
 		unsigned GetSizeString() const;
 
 		friend std::ostream& operator<<(std::ostream& out, const MyClassString& s);
+		friend std::istream& operator>>(std::istream& in, MyClassString& s);
+
 
 	private:
 		char* string;
@@ -148,9 +150,9 @@ inline char& mcs::MyClassString::operator[](int index) {
 }
 
 // strlen ->
-inline unsigned mcs::MyClassString::MySizeFunctions(const char* string) const {
+inline unsigned mcs::MyClassString::MySizeFunctions(const char* string_temp) const {
 	unsigned count{ 0 };
-	for (unsigned i = 0; string[i] != '\0'; ++i, ++count);
+	for (unsigned i = 0; string_temp[i] != '\0'; ++i, ++count);
 
 	return count;
 }
@@ -172,4 +174,19 @@ inline void mcs::MyClassString::DeleteString() {
 // Reload  <<
 std::ostream& mcs::operator<<(std::ostream& out, const MyClassString& s) {
 	return out << s.string;
+}
+
+// Reload  >>
+std::istream& mcs::operator>>(std::istream& in, MyClassString& s) {
+	char buff[255]{};
+	in >> buff;
+	auto size = s.MySizeFunctions(buff);
+	s.ClearString();
+	s.string = new char[size + 1]{ 0 };
+	for (unsigned i = 0; i < size; ++i) {
+		s.string[i] = buff[i];
+	}
+	s.lenght = s.MySizeFunctions(s.string);
+
+	return in;
 }
