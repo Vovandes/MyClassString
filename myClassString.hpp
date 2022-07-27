@@ -24,6 +24,9 @@ namespace mcs {
 		MyClassString& operator += (const MyClassString& other);
 		MyClassString& operator += (const char* temp_string);
 
+		bool operator == (const MyClassString& other);
+		bool operator != (const MyClassString& other);
+
 		char& operator[](int index);
 
 		unsigned MySizeFunctions(const char* string) const;
@@ -34,7 +37,7 @@ namespace mcs {
 		friend std::istream& operator>>(std::istream& in, MyClassString& s);
 
 		void EmplaceBack(const char ch);
-		void EmplaceBackString(const char* ch);
+		MyClassString& EmplaceBackString(const char* str);
 
 	private:
 		char* string;
@@ -125,18 +128,37 @@ inline mcs::MyClassString mcs::MyClassString::operator+(const MyClassString& oth
 inline mcs::MyClassString mcs::MyClassString::operator+(const char* temp_string) const {
 	MyClassString temp(temp_string);
 
-	return temp = *this + temp;
+	return temp = operator+(temp);
 }
 
 // Reload operator += for class
 inline mcs::MyClassString& mcs::MyClassString::operator+=(const MyClassString& other) {
-	return *this = *this + other;
+	return operator=(*this + other);
 }
 
 // Reload operator += for const char*
 inline mcs::MyClassString& mcs::MyClassString::operator+=(const char* temp_string) {
 	MyClassString temp(temp_string);
-	return *this = *this + temp;
+	return operator=(*this + temp);
+}
+
+// Reload operator ==
+inline bool mcs::MyClassString::operator==(const MyClassString& other) {
+	if (this->lenght == other.lenght) {
+		return false;
+	}
+	for (unsigned i = 0; i < this->lenght; ++i) {
+		if (this->string[i] != other.string[i]) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+// Reload operator !=
+inline bool mcs::MyClassString::operator!=(const MyClassString& other) {
+	return !this->operator==(other);
 }
 
 // Reload operator []
@@ -177,8 +199,8 @@ inline void mcs::MyClassString::EmplaceBack(const char ch) {
 }
 
 // Set const char* in back
-inline void mcs::MyClassString::EmplaceBackString(const char* ch) {
-
+inline mcs::MyClassString& mcs::MyClassString::EmplaceBackString(const char* str) {
+	return operator+=(str);
 }
 
 // Delete String

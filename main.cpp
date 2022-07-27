@@ -20,6 +20,14 @@ int main() {
 	//str += str3;
 
 	str3.EmplaceBack('w');
+	str3.EmplaceBackString("WERWERWER");
+
+	auto equal1 = str2 == str;
+	auto equal2 = str3 != str;
+
+	std::cout << equal1 << std::endl;
+	std::cout << equal2 << std::endl;
+
 
 	std::cout << str3 << std::endl;
 
