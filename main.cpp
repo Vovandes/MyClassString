@@ -11,14 +11,27 @@ int main() {
 	mcs::MyClassString str = "Hello";
 	mcs::MyClassString str2("World");
 
-	mcs::MyClassString str3 = CreateString("12345");
+	mcs::MyClassString str3 = "QRT";
 
-	//str.Clear();
+	//std::cin >> str3;
 
-	//str = str + str2;
-	str += "KOKOKO";
+	//str += "KO";
 
-	str += str3;
+	//str += str3;
+
+	str3.EmplaceBack('w');
+	str3.EmplaceBackString("WERWERWER");
+
+	auto equal1 = str2 == str;
+	auto equal2 = str3 != str;
+
+	std::cout << equal1 << std::endl;
+	std::cout << equal2 << std::endl;
+
+
+	std::cout << str3 << std::endl;
+
+	/*std::cout << str << std::endl;
 
 	std::cout << str.GetSizeString() << std::endl;
 
@@ -26,7 +39,9 @@ int main() {
 
 	str.ClearString();
 
-	std::cout << str.GetSizeString() << std::endl;
+	std::cout << str.GetSizeString() << std::endl;*/
+
+
 
 	return 0;
 }

@@ -10,7 +10,7 @@ add_executable(MyClassString
 target_compile_features(MyClassString PUBLIC cxx_std_20)
 
 if(MSVC)
-    target_compile_options(CMakeProject3_Game_guess_the_number PUBLIC /W4 /WX)
+    target_compile_options(MyClassString PUBLIC /W4 /WX)
 else()
-    target_compile_options(CMakeProject3_Game_guess_the_number PUBLIC -Wall -Wextra -Werror -pedantic)
+    target_compile_options(MyClassString PUBLIC -Wall -Wextra -Werror -pedantic)
 endif()
